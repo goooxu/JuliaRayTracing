@@ -39,6 +39,6 @@ const camera = Camera(
     aperture,
     dist_to_focus)
 
-const image = render(scene, camera, (width=width, height=height), samples, Vec(0.5, 0.7, 1.0))
+const image = @time render(scene, camera, (width=width, height=height), samples, Vec(0.5, 0.7, 1.0))
 
 save("output.jpg", image)

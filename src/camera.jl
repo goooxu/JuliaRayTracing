@@ -31,7 +31,7 @@ struct Camera
     end
 end
 
-function get_ray(camera::Camera, s::AbstractFloat, t::AbstractFloat)
+function get_ray(camera::Camera, s::AbstractFloat, t::AbstractFloat)::Ray
     rd::AbstractVec = camera.lens_radius * random_in_unit_disk()
     offset::AbstractVec = camera.u * x(rd) + camera.v * y(rd)
     Ray(camera.origin + offset, camera.lower_left_corner + s * camera.horizontal + t * camera.vertical - (camera.origin + offset))

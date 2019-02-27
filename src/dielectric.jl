@@ -8,11 +8,11 @@ function schlick(cosine::AbstractFloat, refractive_index::AbstractFloat)
 end
     
 
-function scatter(dielectric::Dielectric, ray::Ray, hp::HitPoint)::Tuple{Bool, Union{Nothing, Vec}, Union{Nothing, Ray}}
+function scatter(dielectric::Dielectric, ray::Ray, hp::HitPoint)::Tuple{Bool, Union{Nothing, AbstractVec}, Union{Nothing, Ray}}
     attenuation::AbstractVec = Vec(1.0, 1.0, 1.0)
     local scattered::Ray
     
-    succeeded::Bool, refracted::Union{Nothing, Vec} = refract(ray.direction, hp.normal, 1.0 / dielectric.refractive_index)
+    succeeded::Bool, refracted::Union{Nothing, AbstractVec} = refract(ray.direction, hp.normal, 1.0 / dielectric.refractive_index)
     if succeeded
         cosine::AbstractFloat = -dot(ray.direction, hp.normal) / norm(ray.direction)
         reflect_prob::AbstractFloat = schlick(cosine, refractive_index)
@@ -22,7 +22,7 @@ function scatter(dielectric::Dielectric, ray::Ray, hp::HitPoint)::Tuple{Bool, Un
         end
     end
 
-    reflected::Vec = reflect(ray.direction, hp.normal)
+    reflected::AbstractVec = reflect(ray.direction, hp.normal)
     scattered = Ray(hp.point, reflected)
     true, attenuation, scattered
 end

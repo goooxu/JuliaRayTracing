@@ -9,7 +9,7 @@ struct ImageTexture{T} <: Texture where T <: Real
     end
 end
 
-function value(it::ImageTexture, u::AbstractFloat, v::AbstractFloat, point::AbstractVec)
+function value(it::ImageTexture, u::AbstractFloat, v::AbstractFloat, point::AbstractVec)::AbstractVec
     i::Integer = convert(Integer, floor(u * it.width)) + 1
     j::Integer = convert(Integer, floor((1.0 - v) * it.height)) + 1
     i = max(1, i)
