@@ -23,7 +23,7 @@ addObject(scene, Object(Sphere(Vec(-0.2, 0.0, -0.2), 0.2), material_1))
 addObject(scene, Object(Sphere(Vec(-0.2, 0.0, 0.2), 0.2), material_2))
 addObject(scene, Object(Sphere(Vec(0.2, 0.0, 0.2), 0.2), material_3))
 addObject(scene, Object(Sphere(Vec(0.2, 0.0, -0.2), 0.2), material_4))
-addObject(scene, Object(Rectangle(Vec(-1.0, -0.2, 1.0), Vec(-1.0, -0.2, -1.0), Vec(1.0, -0.2, -1.0)), material_5));
+addObject(scene, Object(Rectangle(Vec(1.0, -0.2, 1.0), Vec(-1.0, -0.2, 1.0), Vec(-1.0, -0.2, -1.0)), material_5));
 
 const look_from = Vec(2.0, 3.0, 2.5)
 const look_to = Vec(0.0, 0.0, 0.0)

@@ -10,10 +10,10 @@ struct Rectangle <: Surface
     u4::AbstractFloat
 
     function Rectangle(p1::AbstractVec, p2::AbstractVec, p3::AbstractVec)
-        v1::AbstractVec = p1 - p2
+        v1::AbstractVec = p2 - p1
         v2::AbstractVec = p3 - p2
-        normal::AbstractVec = normalize(cross(v1, v2))
-        d::AbstractFloat = -dot(normal, p2)
+        normal::AbstractVec = normalize(cross(v2, v1))
+        d::AbstractFloat = -dot(normal, p1)
         u2::AbstractFloat = dot(v1, v1)
         u4::AbstractFloat = dot(v2, v2)
         new(p1, p2, p3, v1, v2, normal, d, u2, u4)
@@ -28,15 +28,15 @@ function hit(rect::Rectangle, ray::Ray, range::NamedTuple{(:min, :max), Tuple{T,
         t::AbstractFloat = a / b
         if range.min < t < range.max
             point::AbstractVec = point_at(ray, t)
-            v::AbstractVec = point - rect.p2
+            v::AbstractVec = point - rect.p1
             u1::AbstractFloat = dot(v, rect.v1)
             u3::AbstractFloat = dot(v, rect.v2)
 
             if 0 < u1 < rect.u2 && 0 < u3 < rect.u4
                 if a < 0
-                    return true, t, HitPoint(point, rect.normal, 1.0 - u1 / rect.u2, 1.0 - u3 / rect.u4, true)
+                    return true, t, HitPoint(point, rect.normal, u3 / rect.u4, u1 / rect.u2, true)
                 else
-                    return true, t, HitPoint(point, -rect.normal, 1.0 - u1 / rect.u2, 1.0 - u3 / rect.u4, false)
+                    return true, t, HitPoint(point, -rect.normal, u3 / rect.u4, u1 / rect.u2, false)
                 end
             end
         end

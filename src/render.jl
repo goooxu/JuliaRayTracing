@@ -1,9 +1,9 @@
 module RayTracing
     export Vec
-    export Sphere, Rectangle
+    export Sphere, Rectangle, Sketch
     export ConstantTexture, ImageTexture, Lambertian, Metal, Dielectric, DiffuseLight
     export Object, Scene, Camera
-    export addObject, render
+    export x, y, z, addObject, render
 
     using StaticArrays
     using LinearAlgebra
@@ -16,6 +16,7 @@ module RayTracing
     include("surface.jl")
     include("rectangle.jl")
     include("sphere.jl")
+    include("sketch.jl")
     include("hitpoint.jl")
     include("texture.jl")
     include("constant_texture.jl")
@@ -29,7 +30,7 @@ module RayTracing
     include("scene.jl")
     include("camera.jl")
 
-    function color(scene::Scene, ray::Ray, bg_color::AbstractVec, depth::Int = 0)::AbstractVec
+    function color(scene::Scene, ray::Ray, bg_color::Union{AbstractVec, Function}, depth::Int = 0)::AbstractVec
         local succeeded::Bool
         succeeded, hp::Union{Nothing, HitPoint}, material::Union{Nothing, Material} = hit(scene, ray, (min = 0.001, max = Inf))
         if succeeded
@@ -44,10 +45,14 @@ module RayTracing
             end
         end
 
-        bg_color
+        if bg_color isa AbstractVec
+            bg_color
+        else
+            bg_color(normalize(ray.direction))
+        end
     end
 
-    function render(scene::Scene, camera::Camera, size::NamedTuple{(:width, :height), Tuple{T, T}} where T <: Integer, samples::Integer, bg_color::AbstractVec)::Array{RGB, 2}
+    function render(scene::Scene, camera::Camera, size::NamedTuple{(:width, :height), Tuple{T, T}} where T <: Integer, samples::Integer, bg_color::Union{AbstractVec, Function})::Array{RGB, 2}
         image::Array{RGB, 2} = zeros(RGB, size.height, size.width)
 
         function render_row(j::Integer)::Nothing
