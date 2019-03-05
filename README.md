@@ -19,4 +19,4 @@ julia src/example.jl
 
 Which will create the below image
 
-![output](https://user-images.githubusercontent.com/22703054/53485391-0fd18800-3ac1-11e9-8cc9-3d9c0d7b9511.jpg)
+![output](https://user-images.githubusercontent.com/22703054/53798583-8106b480-3f73-11e9-8a35-8f0a58d6d828.png)
